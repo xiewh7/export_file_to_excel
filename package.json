@@ -34,5 +34,11 @@
     "vite-plugin-electron-renderer": "^0.14.5",
     "vue": "^3.4.21",
     "vue-tsc": "^2.0.6"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.1.2",
+    "exceljs": "^4.4.0",
+    "fast-glob": "^3.3.2",
+    "klaw": "^4.1.0"
   }
 }

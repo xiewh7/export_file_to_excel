@@ -1,8 +1,9 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
+import exportToExcel2 from '../../src/utils/exportExcel';
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -49,7 +50,7 @@ async function createWindow() {
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
-      // nodeIntegration: true,
+      nodeIntegration: true,
 
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
@@ -117,4 +118,16 @@ ipcMain.handle('open-win', (_, arg) => {
   } else {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
+})
+
+ipcMain.handle('export-excel', async (_, arg) => {
+  const _pathes = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+  })
+  console.error(_pathes)
+  const xPath = path.join(app.getPath('pictures'), '/output.xlsx')
+  exportToExcel2(_pathes[0], xPath)
+  // exportToExcel(process.cwd(), './output.xlsx')
+  shell.openPath(app.getPath('pictures'))
+
 })
