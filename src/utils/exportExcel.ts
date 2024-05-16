@@ -31,7 +31,11 @@ async function exportToExcel2(dirPath:string, outputPath:string) {
     const entries = await fg('**', { cwd: dirPath, stats: true });
     for (const entry of entries) {
         if (entry.stats && entry.stats.size) {
+            const filePath = entry.path
+            const format = path.extname(filePath).slice(1)
             worksheet.addRow({
+                name: path.basename(filePath),
+                format: format,
                 path: entry.path,
                 size: formatBytes(entry.stats.size),
             });
