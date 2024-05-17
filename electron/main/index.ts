@@ -124,9 +124,10 @@ ipcMain.handle('export-excel', async (_, arg) => {
   const _pathes = await dialog.showOpenDialog({
     properties: ['openDirectory'],
   })
+  console.error('_pathes')
   console.error(_pathes)
   const xPath = path.join(app.getPath('pictures'), '/output.xlsx')
-  exportToExcel2(_pathes[0], xPath)
+  exportToExcel2(_pathes.filePaths[0], xPath)
   // exportToExcel(process.cwd(), './output.xlsx')
   shell.openPath(app.getPath('pictures'))
 
